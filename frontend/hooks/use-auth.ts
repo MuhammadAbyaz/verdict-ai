@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect, useCallback } from "react";
 
 const TOKEN_KEY = "auth_token";
@@ -7,7 +8,9 @@ const TOKEN_KEY = "auth_token";
  * Handles storing and retrieving authentication token from localStorage
  */
 export const useAuth = () => {
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(
+    typeof window !== "undefined" ? localStorage.getItem(TOKEN_KEY) : null
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   // Initialize token from localStorage when component mounts
