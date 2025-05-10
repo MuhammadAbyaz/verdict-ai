@@ -17,7 +17,7 @@ export const dataSourceOptions = {
   type: 'postgres',
   entities: [entitiesPath],
   ssl: { rejectUnauthorized: false },
-  synchronize: true,
+  synchronize: false,
 } as TypeOrmModuleOptions;
 
 export default new DataSource(dataSourceOptions as DataSourceOptions);
