@@ -54,8 +54,7 @@ export class AuthService {
     });
 
     return {
-      message: `User registered successfully`,
-      accessToken: token,
+      token,
     };
   }
 

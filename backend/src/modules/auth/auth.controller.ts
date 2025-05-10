@@ -23,8 +23,8 @@ export class AuthController {
     @Body() registerDto: RegisterDto,
     @Res({ passthrough: true }) res: Response,
   ): Promise<Response> {
-    const user = await this.authService.register(registerDto);
-    return res.status(201).json({ user });
+    const response = await this.authService.register(registerDto);
+    return res.status(201).json(response);
   }
 
   @UseGuards(AuthGuard('jwt'))
