@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
+import { ReactQueryClientProvider } from "@/components/ReactQueryClientProvider";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -15,10 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <ReactQueryClientProvider>
       <html lang="en">
-        <body className={font.className}>
-          {children}
-        </body>
+        <body className={font.className}>{children}</body>
       </html>
+    </ReactQueryClientProvider>
   );
 }
