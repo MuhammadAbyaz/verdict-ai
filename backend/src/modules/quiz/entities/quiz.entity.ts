@@ -14,6 +14,9 @@ export class Quiz {
   id: string;
 
   @Column({ nullable: false })
+  title: string;
+
+  @Column({ nullable: false })
   order: number;
 
   @ManyToOne(() => Module, (module) => module.quizes, {

@@ -10,11 +10,12 @@ export class QuizService {
     @InjectRepository(Quiz) private readonly quizRepository: Repository<Quiz>,
   ) {}
   async create(createQuizDto: CreateQuizDto) {
-    const { moduleId, questionIds, order } = createQuizDto;
+    const { moduleId, questionIds, order, title } = createQuizDto;
     const newQuiz = this.quizRepository.create({
       module: { id: moduleId },
       questions: questionIds.map((id) => ({ id })),
       order,
+      title,
     });
 
     await this.quizRepository.save(newQuiz);
