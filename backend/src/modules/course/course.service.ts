@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Course } from './entities/course.entity';
 import { DataSource, Repository } from 'typeorm';
@@ -26,6 +26,29 @@ export class CourseService {
       },
     };
   }
+
+  async findOne(id: string) {
+    const course = await this.courseRepository.findOne({
+      where: { id },
+      relations: {
+        modules: {
+          lessons: true,
+          quizes: {
+            questions: {
+              options: true,
+            },
+          },
+        },
+      },
+    });
+
+    if (!course) {
+      throw new NotFoundException(`Course with id ${id} not found`);
+    }
+
+    return course;
+  }
+
   async create(courseDto: CreateCourseDto, thumbnail: Express.Multer.File) {
     const { title, description, level } = courseDto;
     return await this.dataSource.transaction(async (manager) => {

@@ -5,5 +5,5 @@ export class OptionDto {
   text: string;
 
   @IsNotEmpty()
-  question: string;
+  questionId: string;
 }

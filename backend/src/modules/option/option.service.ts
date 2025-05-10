@@ -12,10 +12,10 @@ export class OptionService {
   ) {}
 
   async create(createOptionDto: CreateOptionDto) {
-    const { question, text } = createOptionDto;
+    const { questionId, text } = createOptionDto;
     const newOption = this.optionRepository.create({
       text,
-      question: { id: question },
+      question: { id: questionId },
     });
     const response = await this.optionRepository.save(newOption);
     return {
