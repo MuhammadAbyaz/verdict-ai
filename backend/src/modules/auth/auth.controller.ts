@@ -15,7 +15,7 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ): Promise<Response> {
     const response = await this.authService.login(loginDto);
-    return res.status(200).json({ response });
+    return res.status(200).json(response);
   }
 
   @Post('register')
