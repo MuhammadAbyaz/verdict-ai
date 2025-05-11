@@ -53,4 +53,19 @@ export class UserCourseController {
     });
     return res.status(200).json(response);
   }
+
+  @Post('/test')
+  @UseGuards(AuthGuard('jwt'))
+  async updateTestProgress(
+    @Body() updateTestProgressDto: UpdateProgressDto,
+    @GetUser() user: User,
+    @Res() res: Response,
+  ) {
+    const response = await this.userCourseService.updateTestProgress({
+      userId: user.id,
+      updateTestProgress: updateTestProgressDto,
+    });
+
+    return res.status(200).json(response);
+  }
 }

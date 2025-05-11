@@ -4,7 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserCourse } from './entities/user-course.entity';
 import { Repository } from 'typeorm';
 import { Module } from '../module/entities/module.entity';
-import { UpdateProgressDto } from './user-course.dtos';
+import { UpdateProgressDto, UpdateTestProgressDto } from './user-course.dtos';
+import { TEST_PROGRESS } from 'src/constants/test-progress';
 
 @Injectable()
 export class UserCourseService {
@@ -78,6 +79,28 @@ export class UserCourseService {
 
     userCourse.moduleProgress = updateProgress.moduleOrder;
     await this.userCourseRepository.save(userCourse);
+    return {
+      userCourse,
+    };
+  }
+
+  async updateTestProgress({
+    userId,
+    updateTestProgress,
+  }: {
+    userId: string;
+    updateTestProgress: UpdateTestProgressDto;
+  }) {
+    const userCourse = await this.userCourseRepository.findOne({
+      where: { userId, courseId: updateTestProgress.courseId },
+    });
+
+    if (!userCourse) throw new NotFoundException();
+
+    userCourse.testProgress = TEST_PROGRESS.PASS;
+
+    await this.userCourseRepository.save(userCourse);
+
     return {
       userCourse,
     };
