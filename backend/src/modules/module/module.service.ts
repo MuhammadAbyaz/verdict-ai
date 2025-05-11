@@ -43,6 +43,7 @@ export class ModuleService {
       .leftJoinAndSelect('module.quizes', 'quizes')
       .leftJoinAndSelect('quizes.questions', 'questions')
       .leftJoinAndSelect('questions.options', 'options')
+      .leftJoinAndSelect('questions.correctOption', 'correctOption')
       .addSelect(['course.id'])
       .where('module.id = :id', { id })
       .getOne();
