@@ -30,7 +30,7 @@ export class UserCourseService {
       await this.userCourseRepository.save(userCourse);
     }
 
-    return { userProgress: { userCourse } };
+    return { userProgress: { ...userCourse } };
   }
   async getUserTotalXp({ userId }: { userId: string }) {
     const userCourses = await this.userCourseRepository.find({
