@@ -40,6 +40,12 @@ export const useLoginMutation = () => {
       // Store the token in auth state
       setAuthToken(data.token);
 
+      // store the user details in localStorage
+      if (typeof window !== "undefined") {
+        localStorage.setItem("email", JSON.stringify(data.email));
+        localStorage.setItem("username", JSON.stringify(data.username));
+      }
+
       // Redirect to home page
       router.push("/");
     },
