@@ -98,6 +98,7 @@ export class UserCourseService {
     if (!userCourse) throw new NotFoundException();
 
     userCourse.testProgress = TEST_PROGRESS.PASS;
+    userCourse.moduleProgress += 1;
 
     await this.userCourseRepository.save(userCourse);
 
