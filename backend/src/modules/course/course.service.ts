@@ -31,14 +31,7 @@ export class CourseService {
     const course = await this.courseRepository.findOne({
       where: { id },
       relations: {
-        modules: {
-          lessons: true,
-          quizes: {
-            questions: {
-              options: true,
-            },
-          },
-        },
+        modules: true,
       },
     });
 

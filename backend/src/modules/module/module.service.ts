@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateModuleDto } from './module.dtos';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Module } from './entities/module.entity';
@@ -35,13 +35,21 @@ export class ModuleService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} module`;
+  async findOne(id: string) {
+    const response = await this.moduleRepository.findOne({
+      where: { id },
+      relations: {
+        lessons: true,
+        quizes: {
+          questions: {
+            options: true,
+          },
+        },
+      },
+    });
+    if (!response) throw new NotFoundException();
+    return { ...response };
   }
-
-  // update(id: number, updateModuleDto: UpdateModuleDto) {
-  //   return `This action updates a #${id} module`;
-  // }
 
   remove(id: number) {
     return `This action removes a #${id} module`;

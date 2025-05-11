@@ -22,4 +22,12 @@ export class UserCourseController {
     });
     return res.status(200).json(response);
   }
+  @Get('/')
+  @UseGuards(AuthGuard('jwt'))
+  async getUserXp(@GetUser() user: User, @Res() res: Response) {
+    const response = await this.userCourseService.getUserTotalXp({
+      userId: user.id,
+    });
+    return res.status(200).json(response);
+  }
 }

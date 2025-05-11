@@ -3,12 +3,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserCourse } from './entities/user-course.entity';
 import { Repository } from 'typeorm';
+import { Module } from '../module/entities/module.entity';
 
 @Injectable()
 export class UserCourseService {
   constructor(
     @InjectRepository(UserCourse)
     private readonly userCourseRepository: Repository<UserCourse>,
+    @InjectRepository(Module)
+    private readonly moduleRepository: Repository<Module>,
   ) {}
   async getUserProgress({
     userId,
@@ -26,6 +29,31 @@ export class UserCourseService {
       await this.userCourseRepository.save(userCourse);
     }
 
-    return { userProgress: userCourse }; // Return the found or newly created record
+    return { userProgress: { userCourse } };
+  }
+  async getUserTotalXp({ userId }: { userId: string }) {
+    const userCourses = await this.userCourseRepository.find({
+      where: { userId },
+      relations: ['course'],
+    });
+
+    let totalXp = 0;
+
+    for (const userCourse of userCourses) {
+      const modules = await this.moduleRepository.find({
+        where: { course: { id: userCourse.courseId } },
+        order: { order: 'ASC' },
+      });
+
+      for (
+        let i = 0;
+        i < modules.length && i < userCourse.moduleProgress;
+        i++
+      ) {
+        totalXp += modules[i].xp;
+      }
+    }
+
+    return { totalXp };
   }
 }

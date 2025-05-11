@@ -5,10 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { UserCourse } from './entities/user-course.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Module as ModuleEntity } from '../module/entities/module.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserCourse]),
+    TypeOrmModule.forFeature([UserCourse, ModuleEntity]),
     JwtModule.registerAsync({
       global: true,
       imports: [ConfigModule],
