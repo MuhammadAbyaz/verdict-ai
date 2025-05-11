@@ -11,7 +11,6 @@ export const useModule = (moduleId: string | undefined) => {
       if (!moduleId) return null;
 
       const { data } = await client.get(`/modules/${moduleId}`);
-      console.log("Module data:", data);
       return data;
     },
     staleTime: Infinity,

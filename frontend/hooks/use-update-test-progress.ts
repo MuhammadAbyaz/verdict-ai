@@ -8,37 +8,36 @@ import {
 } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-interface UpdateProgressData {
+interface UpdateTestProgressData {
   courseId: string;
-  moduleOrder: number;
 }
 
 // Define a more specific type for the expected API response if known, otherwise use 'any'
-interface UpdateProgressResponse {
+interface UpdateTestProgressResponse {
   // Define the expected response structure here
   // For example: success: boolean; message?: string;
   [key: string]: any; // Or a more specific type
 }
 
-export const useUpdateProgress = () => {
+export const useUpdateTestProgress = () => {
   const client = useAuthClient();
   const queryClient = useQueryClient();
 
   const mutationFn = async (
-    data: UpdateProgressData
-  ): Promise<UpdateProgressResponse> => {
-    const response = await client.post("/user-progress", data);
+    data: UpdateTestProgressData
+  ): Promise<UpdateTestProgressResponse> => {
+    const response = await client.post("/user-progress/test", data);
     return response.data;
   };
 
   const mutationOptions: UseMutationOptions<
-    UpdateProgressResponse,
+    UpdateTestProgressResponse,
     Error,
-    UpdateProgressData
+    UpdateTestProgressData
   > = {
     onSuccess: (
-      _responseData: UpdateProgressResponse,
-      variables: UpdateProgressData
+      _responseData: UpdateTestProgressResponse,
+      variables: UpdateTestProgressData
     ) => {
       // Invalidate and refetch progress for the specific course
       queryClient.invalidateQueries({
@@ -56,8 +55,10 @@ export const useUpdateProgress = () => {
     },
   };
 
-  return useMutation<UpdateProgressResponse, Error, UpdateProgressData>({
-    mutationFn,
-    ...mutationOptions,
-  });
+  return useMutation<UpdateTestProgressResponse, Error, UpdateTestProgressData>(
+    {
+      mutationFn,
+      ...mutationOptions,
+    }
+  );
 };

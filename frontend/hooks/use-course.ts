@@ -11,8 +11,8 @@ export const useCourse = (courseId: string | undefined) => {
       if (!courseId) return null;
 
       const { data } = await client.get(`/courses/${courseId}`);
-      console.log("Course data:", data);
-      return data;
+      const { data: testData } = await client.get(`/tests/${data.test.id}`);
+      return { courseData: data, testData };
     },
     staleTime: Infinity,
     refetchOnWindowFocus: false,

@@ -18,6 +18,8 @@ import { Footer } from "./footer";
 import { QuestionBubble } from "./question-bubble";
 import { ResultCard } from "./result-card";
 import { useModule } from "@/hooks/use-module";
+import { useUpdateProgress } from "@/hooks/use-update-progress";
+import { useUpdateTestProgress } from "@/hooks/use-update-test-progress";
 
 // Define interfaces for Lesson and Quiz based on usage
 interface Lesson {
@@ -82,6 +84,8 @@ export const Module = ({
 }: ModuleProps) => {
   // Fetch module content
   const { data: module } = useModule(moduleId);
+  const upsertUserProgress = useUpdateProgress();
+  const upsertTestProgress = useUpdateTestProgress();
 
   // Audio controls
   const [correctAudioElement, , correctAudioControls] = useAudio({
@@ -133,6 +137,8 @@ export const Module = ({
     activeIndex: 0,
     items: [],
   });
+
+  console.log("module", module);
 
   // Update moduleState when module data is loaded
   useEffect(() => {
@@ -240,9 +246,21 @@ export const Module = ({
     }
   };
 
-  const updateUserProgress = () => {
+  const updateUserProgress = async () => {
     toast.success("Congratulations for completing this module.");
-    router.push(`/learn/${module.course.id}`);
+
+    if (module.order) {
+      await upsertUserProgress.mutateAsync({
+        courseId: module.course.id,
+        moduleOrder: module.order,
+      });
+      router.push(`/learn/${module.course.id}`);
+    } else {
+      await upsertTestProgress.mutateAsync({
+        courseId: module.course.id,
+      });
+      router.push(`/learn/${module.course.id}`);
+    }
   };
 
   if (!module || moduleState.items.length === 0) {

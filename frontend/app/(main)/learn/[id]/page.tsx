@@ -15,9 +15,14 @@ const LearnPage = () => {
   const { id } = useParams<{ id: string }>();
   const { data: userProgressData, isLoading: userProgressDataLoading } =
     useProgress(id);
-  const { data: courseData, isLoading: courseDataLoading } = useCourse(id);
+  const { data, isLoading: courseDataLoading } = useCourse(id);
+
+  const { courseData, testData } = data || {};
   const isPro = false;
   const hasActiveSubscription = false;
+  console.log("progress", userProgressData);
+  console.log("courseData", courseData);
+  console.log("testData", testData);
 
   if (userProgressDataLoading || courseDataLoading) {
     return (
@@ -27,7 +32,7 @@ const LearnPage = () => {
     );
   }
 
-  console.log("userProgressData", userProgressData);
+  console.log("modules", courseData.modules);
 
   return (
     <div className="flex flex-row-reverse gap-[48px] px-6">
@@ -47,7 +52,16 @@ const LearnPage = () => {
           courseId={courseData.id}
           title={courseData.title}
           description={courseData.description}
-          modules={courseData.modules}
+          modules={[
+            ...courseData.modules,
+            {
+              id: testData.id,
+              title: "Final Test",
+              description: "This is the final test for the course.",
+              order: courseData.modules.length,
+              xp: testData?.xp ?? 0,
+            },
+          ]}
           activeModule={userProgressData.userProgress.moduleProgress}
           order={courseData.modules.order}
         />
