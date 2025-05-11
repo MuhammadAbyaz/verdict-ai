@@ -28,6 +28,7 @@ export class UserCourse {
   @IsEnum(TEST_PROGRESS)
   @Column({
     enum: TEST_PROGRESS,
+    default: TEST_PROGRESS.UNATTEMPTED,
   })
   testProgress: TEST_PROGRESS;
 

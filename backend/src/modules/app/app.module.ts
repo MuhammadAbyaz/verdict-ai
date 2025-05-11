@@ -11,6 +11,7 @@ import { LessonModule } from '../lesson/lesson.module';
 import { QuizModule } from '../quiz/quiz.module';
 import { QuestionModule } from '../question/question.module';
 import { OptionModule } from '../option/option.module';
+import { UserCourseModule } from '../user-course/user-course.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { OptionModule } from '../option/option.module';
     QuizModule,
     QuestionModule,
     OptionModule,
+    UserCourseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
