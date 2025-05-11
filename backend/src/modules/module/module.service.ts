@@ -3,12 +3,15 @@ import { CreateModuleDto } from './module.dtos';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Module } from './entities/module.entity';
 import { Repository } from 'typeorm';
+import { Test } from '../test/entities/test.entity';
 
 @Injectable()
 export class ModuleService {
   constructor(
     @InjectRepository(Module)
     private readonly moduleRepository: Repository<Module>,
+    @InjectRepository(Test)
+    private readonly testRepository: Repository<Test>,
   ) {}
   async create(createModuleDto: CreateModuleDto) {
     const { title, description, order, xp, courseId } = createModuleDto;
@@ -36,7 +39,8 @@ export class ModuleService {
   }
 
   async findOne(id: string) {
-    const response = await this.moduleRepository
+    let response;
+    response = await this.moduleRepository
       .createQueryBuilder('module')
       .leftJoin('module.course', 'course')
       .leftJoinAndSelect('module.lessons', 'lessons')
@@ -48,7 +52,26 @@ export class ModuleService {
       .where('module.id = :id', { id })
       .getOne();
 
-    if (!response) throw new NotFoundException();
+    if (!response) {
+      response = await this.testRepository.findOne({
+        where: { id },
+        relations: {
+          course: true,
+          questions: {
+            options: true,
+            correctOption: true,
+          },
+        },
+      });
+
+      if (!response) return new NotFoundException();
+      return {
+        quizes: [{ questions: response?.questions ?? [] }],
+        course: {
+          id: response.course.id,
+        },
+      };
+    }
     return { ...response };
   }
 

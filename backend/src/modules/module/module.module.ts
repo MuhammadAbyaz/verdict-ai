@@ -7,10 +7,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CourseModule } from '../course/course.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module as ModuleEntity } from './entities/module.entity';
+import { Test } from '../test/entities/test.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ModuleEntity]),
+    TypeOrmModule.forFeature([ModuleEntity, Test]),
     PassportModule,
     JwtModule.registerAsync({
       global: true,
