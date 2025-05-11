@@ -12,7 +12,7 @@ import { GetUser } from 'src/database/strategies/get-user';
 import { User } from '../user/entities/user.entity';
 import { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
-import { UpdateProgressDto } from './user-course.dtos';
+import { UpdateProgressDto, UpdateTestProgressDto } from './user-course.dtos';
 
 @Controller('user-progress')
 export class UserCourseController {
@@ -57,7 +57,7 @@ export class UserCourseController {
   @Post('/test')
   @UseGuards(AuthGuard('jwt'))
   async updateTestProgress(
-    @Body() updateTestProgressDto: UpdateProgressDto,
+    @Body() updateTestProgressDto: UpdateTestProgressDto,
     @GetUser() user: User,
     @Res() res: Response,
   ) {
