@@ -70,6 +70,12 @@ export class UserCourseService {
     });
     if (!userCourse) throw new NotFoundException();
 
+    if (updateProgress.moduleOrder <= userCourse.moduleProgress) {
+      return {
+        userCourse,
+      };
+    }
+
     userCourse.moduleProgress = updateProgress.moduleOrder;
     await this.userCourseRepository.save(userCourse);
     return {
