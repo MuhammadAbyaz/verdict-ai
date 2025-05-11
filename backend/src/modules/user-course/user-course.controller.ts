@@ -1,9 +1,18 @@
-import { Controller, Get, Param, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { UserCourseService } from './user-course.service';
 import { GetUser } from 'src/database/strategies/get-user';
 import { User } from '../user/entities/user.entity';
 import { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
+import { UpdateProgressDto } from './user-course.dtos';
 
 @Controller('user-progress')
 export class UserCourseController {
@@ -26,6 +35,20 @@ export class UserCourseController {
   @UseGuards(AuthGuard('jwt'))
   async getUserXp(@GetUser() user: User, @Res() res: Response) {
     const response = await this.userCourseService.getUserTotalXp({
+      userId: user.id,
+    });
+    return res.status(200).json(response);
+  }
+
+  @Post('/')
+  @UseGuards(AuthGuard('jwt'))
+  async updateProgress(
+    @Body() updateProgress: UpdateProgressDto,
+    @GetUser() user: User,
+    @Res() res: Response,
+  ) {
+    const response = await this.userCourseService.updateProgress({
+      updateProgress: updateProgress,
       userId: user.id,
     });
     return res.status(200).json(response);

@@ -1,9 +1,10 @@
 // src/modules/user-course/user-course.service.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserCourse } from './entities/user-course.entity';
 import { Repository } from 'typeorm';
 import { Module } from '../module/entities/module.entity';
+import { UpdateProgressDto } from './user-course.dtos';
 
 @Injectable()
 export class UserCourseService {
@@ -55,5 +56,24 @@ export class UserCourseService {
     }
 
     return { totalXp };
+  }
+
+  async updateProgress({
+    updateProgress,
+    userId,
+  }: {
+    updateProgress: UpdateProgressDto;
+    userId: string;
+  }) {
+    const userCourse = await this.userCourseRepository.findOne({
+      where: { userId, courseId: updateProgress.courseId },
+    });
+    if (!userCourse) throw new NotFoundException();
+
+    userCourse.moduleProgress = updateProgress.moduleOrder;
+    await this.userCourseRepository.save(userCourse);
+    return {
+      userCourse,
+    };
   }
 }
