@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 // import { upsertUserProgress } from "@/actions/user-progress";
 
 import { Card } from "./card";
+import { useAuthClient } from "@/lib/use-auth-client";
 
 type Props = {
   courses: Course[];
@@ -16,18 +17,10 @@ type Props = {
 
 export const List = ({ courses, activeCourseId }: Props) => {
   const router = useRouter();
-  const [pending, startTransition] = useTransition();
+  const authClient = useAuthClient();
 
   const onClick = (id: string) => {
-    if (pending) return;
-
-    if (id === activeCourseId) {
-      return router.push("/learn");
-    }
-
-    // startTransition(() => {
-    //   upsertUserProgress(id).catch(() => toast.error("Something went wrong."));
-    // });
+    router.push(`/learn/${id}`);
   };
 
   return (
@@ -39,7 +32,7 @@ export const List = ({ courses, activeCourseId }: Props) => {
           title={course.title}
           imageSrc={course.thumbnail}
           onClick={onClick}
-          disabled={pending}
+          pending={false}
           active={course.id === activeCourseId}
         />
       ))}
