@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Res,
   UploadedFile,
@@ -34,5 +35,11 @@ export class CourseController {
   ) {
     const response = await this.courseService.create(courseDto, thumbnail);
     return res.status(201).json(response);
+  }
+
+  @Get(':id')
+  public async getCourse(@Param('id') id: string, @Res() res: Response) {
+    const response = await this.courseService.findOne(id);
+    return res.status(200).json(response);
   }
 }

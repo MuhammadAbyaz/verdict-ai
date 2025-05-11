@@ -6,6 +6,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from '../../database/config';
 import { AuthModule } from '../auth/auth.module';
 import { CourseModule } from '../course/course.module';
+import { ModuleModule } from '../module/module.module';
+import { LessonModule } from '../lesson/lesson.module';
+import { QuizModule } from '../quiz/quiz.module';
+import { QuestionModule } from '../question/question.module';
+import { OptionModule } from '../option/option.module';
 
 @Module({
   imports: [
@@ -16,6 +21,11 @@ import { CourseModule } from '../course/course.module';
     TypeOrmModule.forRoot(dataSourceOptions),
     AuthModule,
     CourseModule,
+    ModuleModule,
+    LessonModule,
+    QuizModule,
+    QuestionModule,
+    OptionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
