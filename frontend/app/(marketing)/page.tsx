@@ -15,17 +15,13 @@ export default function Home() {
         </h1>
         <div className="flex flex-col items-center gap-y-3 max-w-[330px] w-full">
           <Button size="lg" variant="secondary" className="w-full" asChild>
-            <Link href="/learn">
-              Get Started
-            </Link>
+            <Link href="/learn">Get Started</Link>
           </Button>
           <Button size="lg" variant="primaryOutline" className="w-full" asChild>
-            <Link href="/login">
-              I already have an account
-            </Link>
+            <Link href="/login">I already have an account</Link>
           </Button>
         </div>
       </div>
     </div>
-  )
+  );
 }

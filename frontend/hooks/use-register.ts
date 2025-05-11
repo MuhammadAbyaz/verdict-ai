@@ -54,6 +54,11 @@ export const useRegisterMutation = () => {
       // Store the token in auth state
       setAuthToken(data.token);
 
+      if (typeof window !== "undefined") {
+        localStorage.setItem("email", JSON.stringify(data.email));
+        localStorage.setItem("username", JSON.stringify(data.username));
+      }
+
       // Redirect to home page
       router.push("/");
     },
