@@ -36,17 +36,17 @@ export class ModuleService {
   }
 
   async findOne(id: string) {
-    const response = await this.moduleRepository.findOne({
-      where: { id },
-      relations: {
-        lessons: true,
-        quizes: {
-          questions: {
-            options: true,
-          },
-        },
-      },
-    });
+    const response = await this.moduleRepository
+      .createQueryBuilder('module')
+      .leftJoin('module.course', 'course')
+      .leftJoinAndSelect('module.lessons', 'lessons')
+      .leftJoinAndSelect('module.quizes', 'quizes')
+      .leftJoinAndSelect('quizes.questions', 'questions')
+      .leftJoinAndSelect('questions.options', 'options')
+      .addSelect(['course.id'])
+      .where('module.id = :id', { id })
+      .getOne();
+
     if (!response) throw new NotFoundException();
     return { ...response };
   }
