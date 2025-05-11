@@ -44,6 +44,7 @@ const LearnPage = () => {
       <FeedWrapper>
         <Header title={courseData.title} />
         <Unit
+          courseId={courseData.id}
           title={courseData.title}
           description={courseData.description}
           modules={courseData.modules}

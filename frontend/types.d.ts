@@ -42,8 +42,6 @@ type Module = {
   description: string;
   order: number;
   xp: number;
-  lessons: Lesson[];
-  quizes: Quiz[];
 };
 
 type CourseResponse = {

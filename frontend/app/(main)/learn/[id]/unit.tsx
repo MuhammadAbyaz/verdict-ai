@@ -2,6 +2,7 @@ import { UnitBanner } from "./unit-banner";
 import { LessonButton } from "./lesson-button";
 
 type Props = {
+  courseId: string;
   order: number;
   title: string;
   description: string;
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export const Unit = ({
+  courseId,
   order,
   title,
   description,
@@ -29,6 +31,7 @@ export const Unit = ({
             <LessonButton
               key={module.id}
               id={module.id}
+              courseId={courseId}
               index={index}
               totalCount={modules.length - 1}
               current={isCurrent}
