@@ -131,7 +131,7 @@ export class UserCourseService {
     }
     finalLeaderBoard.sort((a, b) => b.xp - a.xp);
     return {
-      finalLeaderBoard: finalLeaderBoard.slice(0, limit),
+      leaderboard: finalLeaderBoard.slice(0, limit),
     };
   }
 }
