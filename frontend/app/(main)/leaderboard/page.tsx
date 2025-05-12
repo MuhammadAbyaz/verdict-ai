@@ -1,9 +1,11 @@
-import React from 'react'
+import Leaderboard from "@/components/leaderboard";
 
-const LeaderboardPage = () => {
+const LeaderboardPage = async () => {
   return (
-    <div>LeaderboardPage</div>
-  )
-}
+    <div className="my-5">
+      <Leaderboard />
+    </div>
+  );
+};
 
-export default LeaderboardPage
+export default LeaderboardPage;

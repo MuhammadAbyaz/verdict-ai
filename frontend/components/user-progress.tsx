@@ -1,35 +1,43 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
-import { InfinityIcon } from "lucide-react";
+import { InfinityIcon, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { usePoints } from "@/hooks/use-points";
 
 type Props = {
-  activeCourse: Course;
-  hearts: number;
-  points: number;
+  activeCourse?: Course;
   hasActiveSubscription: boolean;
 };
 
 export const UserProgress = ({
   activeCourse,
-  points,
-  hearts,
   hasActiveSubscription,
 }: Props) => {
+  const { data } = usePoints();
+  if (!data) {
+    return (
+      <div className="flex h-20 w-full items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-neutral-500" />
+      </div>
+    );
+  }
   return (
     <div className="flex items-center justify-between gap-x-2 w-full">
-      <Link href="/courses">
-        <Button variant="ghost">
-          <Image
-            src={activeCourse.thumbnail}
-            alt={activeCourse.title}
-            className="rounded-md "
-            width={32}
-            height={32}
-          />
-        </Button>
-      </Link>
+      {activeCourse && (
+        <Link href="/courses">
+          <Button variant="ghost">
+            <Image
+              src={activeCourse.thumbnail}
+              alt={activeCourse.title}
+              className="rounded-md "
+              width={32}
+              height={32}
+            />
+          </Button>
+        </Link>
+      )}
       <Link href="/shop">
         <Button variant="ghost" className="text-orange-500">
           <Image
@@ -39,7 +47,7 @@ export const UserProgress = ({
             alt="Points"
             className="mr-2"
           />
-          {points}
+          {data.totalXp}
         </Button>
       </Link>
       <Link href="/shop">
@@ -54,7 +62,7 @@ export const UserProgress = ({
           {hasActiveSubscription ? (
             <InfinityIcon className="h-4 w-4 stroke-[3]" />
           ) : (
-            hearts
+            data.hearts
           )}
         </Button>
       </Link>

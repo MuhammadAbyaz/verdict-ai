@@ -20,10 +20,6 @@ const LearnPage = () => {
   const { courseData, testData } = data || {};
   const isPro = false;
   const hasActiveSubscription = false;
-  console.log("progress", userProgressData);
-  console.log("courseData", courseData);
-  console.log("testData", testData);
-
   if (userProgressDataLoading || courseDataLoading) {
     return (
       <div className="flex justify-center items-center h-40">
@@ -40,8 +36,6 @@ const LearnPage = () => {
         <UserProgress
           hasActiveSubscription={hasActiveSubscription}
           activeCourse={courseData}
-          hearts={15}
-          points={250}
         />
         {!isPro && <Promo />}
         <Quests points={250} />

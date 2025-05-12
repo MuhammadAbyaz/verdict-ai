@@ -25,7 +25,7 @@ export const Textarea = ({
   return (
     <div className="relative w-full pt-4">
       <ShadcnTextarea
-        className="resize-none bg-green-500/5 w-full rounded-2xl pr-12 pt-4 pb-16 focus:ring-green-500 focus:ring-offset-0 focus-visible:ring-green-500 focus-visible:ring-offset-0"
+        className="resize-none bg-green-300/5 w-full rounded-2xl pr-12 pt-4 pb-16 focus:ring-green-500 focus:ring-offset-0 focus-visible:ring-green-500 focus-visible:ring-offset-0"
         value={input}
         autoFocus
         placeholder={"Say something..."}
