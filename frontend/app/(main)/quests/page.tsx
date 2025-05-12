@@ -1,9 +1,12 @@
-import React from 'react'
+import QuestsWrapper from "@/components/questsWrapper";
+import React from "react";
 
 const QuestsPage = () => {
   return (
-    <div>QuestsPage</div>
-  )
-}
+    <div className="mt-10">
+      <QuestsWrapper />
+    </div>
+  );
+};
 
-export default QuestsPage
+export default QuestsPage;
