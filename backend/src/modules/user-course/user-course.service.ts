@@ -107,13 +107,18 @@ export class UserCourseService {
       where: { userId, courseId: updateTestProgress.courseId },
     });
 
-    if (!userCourse) throw new NotFoundException();
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+    });
+
+    if (!userCourse || !user) throw new NotFoundException();
 
     userCourse.testProgress = TEST_PROGRESS.PASS;
     userCourse.moduleProgress += 1;
+    user.hearts = updateTestProgress.hearts;
 
     await this.userCourseRepository.save(userCourse);
-
+    await this.userRepository.save(user);
     return {
       userCourse,
     };
