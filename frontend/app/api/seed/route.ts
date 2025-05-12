@@ -57,7 +57,8 @@ export async function GET(req: Request) {
         // Generate embeddings for the batch using Google's embedding model
         const { embeddings, usage } = await embedMany({
           model: google.embedding("text-embedding-004", {
-            outputDimensionality: 1536,
+            outputDimensionality: 768,
+            taskType: "RETRIEVAL_QUERY",
           }),
           values: batchChunks,
         });
