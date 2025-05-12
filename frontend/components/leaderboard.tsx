@@ -52,7 +52,7 @@ const Leaderboard = () => {
           <Separator className="mb-4 h-0.5 rounded-full" />
           {leaderboard.map((userProgress, i) => (
             <div
-              key={userProgress.userId}
+              key={i}
               className="flex w-full items-center rounded-xl p-2 px-4 hover:bg-gray-200/50"
             >
               <p className="mr-4 font-bold text-primary-700">{i + 1}</p>
