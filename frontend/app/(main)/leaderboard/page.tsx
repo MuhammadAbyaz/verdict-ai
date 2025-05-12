@@ -2,7 +2,7 @@ import Leaderboard from "@/components/leaderboard";
 
 const LeaderboardPage = async () => {
   return (
-    <div className="my-5">
+    <div className="mt-10">
       <Leaderboard />
     </div>
   );
