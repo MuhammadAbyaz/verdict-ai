@@ -11,7 +11,7 @@ import {
   CheckCircle,
   ChevronDownIcon,
   ChevronUpIcon,
-  Loader2,
+  Loader,
   PocketKnife,
   SparklesIcon,
   StopCircle,
@@ -194,7 +194,7 @@ const PurePreviewMessage = ({
                         <div className="w-5 h-5 flex items-center justify-center">
                           {state === "call" ? (
                             isLatestMessage && status !== "ready" ? (
-                              <Loader2 className="animate-spin h-4 w-4 text-zinc-500" />
+                              <Loader className="animate-spin h-4 w-4 text-zinc-500" />
                             ) : (
                               <StopCircle className="h-4 w-4 text-red-500" />
                             )

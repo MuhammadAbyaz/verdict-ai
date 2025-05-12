@@ -9,7 +9,7 @@ import { Unit } from "./unit";
 import { useProgress } from "@/hooks/use-progress";
 import { useCourse } from "@/hooks/use-course";
 import { useParams } from "next/navigation";
-import { Loader, Loader2 } from "lucide-react";
+import { Loader } from "lucide-react";
 
 const LearnPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -31,14 +31,14 @@ const LearnPage = () => {
   console.log("modules", courseData.modules);
 
   return (
-    <div className="flex flex-row-reverse gap-[48px] px-6">
+    <div className="mt-10 flex flex-row-reverse gap-[48px] px-6">
       <StickyWrapper>
         <UserProgress
           hasActiveSubscription={hasActiveSubscription}
           activeCourse={courseData}
         />
         {!isPro && <Promo />}
-        <Quests points={250} />
+        <Quests />
       </StickyWrapper>
       <FeedWrapper>
         <Header title={courseData.title} />

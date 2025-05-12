@@ -8,7 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { UserProgress } from "@/components/user-progress";
 import { quests } from "@/constants";
 import { usePoints } from "@/hooks/use-points";
-import { Loader2 } from "lucide-react";
+import { Loader } from "lucide-react";
 
 const QuestsWrapper = () => {
   const { data } = usePoints();
@@ -16,7 +16,7 @@ const QuestsWrapper = () => {
   if (!data) {
     return (
       <div className="flex h-40 w-full items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-neutral-500" />
+        <Loader className="h-8 w-8 animate-spin text-neutral-500" />
       </div>
     );
   }

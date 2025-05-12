@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { InfinityIcon, Loader2 } from "lucide-react";
+import { InfinityIcon, Loader } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { usePoints } from "@/hooks/use-points";
@@ -19,7 +19,7 @@ export const UserProgress = ({
   if (!data) {
     return (
       <div className="flex h-20 w-full items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-neutral-500" />
+        <Loader className="h-8 w-8 animate-spin text-neutral-500" />
       </div>
     );
   }

@@ -1,15 +1,22 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
-
 import { quests } from "@/constants";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { usePoints } from "@/hooks/use-points";
+import { Loader } from "lucide-react";
 
-type Props = {
-  points: number;
-};
+export const Quests = () => {
+  const { data: pointsData } = usePoints();
 
-export const Quests = ({ points }: Props) => {
+  if (!pointsData) {
+    return (
+      <div className="flex justify-center items-center h-40">
+        <Loader className="h-8 w-8 animate-spin text-neutral-500" />
+      </div>
+    );
+  }
   return (
     <div className="border-2 rounded-xl p-4 space-y-4">
       <div className="flex items-center justify-between w-full space-y-2">
@@ -22,7 +29,7 @@ export const Quests = ({ points }: Props) => {
       </div>
       <ul className="w-full space-y-4">
         {quests.map((quest) => {
-          const progress = (points / quest.value) * 100;
+          const progress = (pointsData.totalXp / quest.value) * 100;
 
           return (
             <div

@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { UserProgress } from "@/components/user-progress";
 import { useLeaderboard } from "@/hooks/use-leaderboard";
 import { AvatarFallback } from "@radix-ui/react-avatar";
-import { Loader2 } from "lucide-react";
+import { Loader } from "lucide-react";
 
 const Leaderboard = () => {
   const { data } = useLeaderboard(10);
@@ -20,7 +20,7 @@ const Leaderboard = () => {
   if (!leaderboard) {
     return (
       <div className="flex h-40 w-full items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-neutral-500" />
+        <Loader className="h-8 w-8 animate-spin text-neutral-500" />
       </div>
     );
   }
@@ -30,7 +30,7 @@ const Leaderboard = () => {
       <StickyWrapper>
         <UserProgress hasActiveSubscription={isPro} />
         {!isPro && <Promo />}
-        <Quests points={250} />
+        <Quests />
       </StickyWrapper>
 
       <FeedWrapper>
