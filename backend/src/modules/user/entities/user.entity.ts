@@ -25,6 +25,9 @@ export class User {
   @Column()
   password: string;
 
+  @Column({ default: 10 })
+  hearts: number;
+
   @CreateDateColumn()
   createdAt: Date;
 

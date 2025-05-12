@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   Res,
   UseGuards,
 } from '@nestjs/common';
@@ -17,6 +18,13 @@ import { UpdateProgressDto, UpdateTestProgressDto } from './user-course.dtos';
 @Controller('user-progress')
 export class UserCourseController {
   constructor(private readonly userCourseService: UserCourseService) {}
+
+  @Get('/leaderboard')
+  @UseGuards(AuthGuard('jwt'))
+  async getLeaderBoard(@Query('limit') limit: number, @Res() res: Response) {
+    const response = await this.userCourseService.getLeaderBoard({ limit });
+    return res.status(200).json(response);
+  }
 
   @Get('/:id')
   @UseGuards(AuthGuard('jwt'))
@@ -57,7 +65,8 @@ export class UserCourseController {
   @Post('/test')
   @UseGuards(AuthGuard('jwt'))
   async updateTestProgress(
-    @Body() updateTestProgressDto: UpdateTestProgressDto,
+    @Body()
+    updateTestProgressDto: UpdateTestProgressDto,
     @GetUser() user: User,
     @Res() res: Response,
   ) {

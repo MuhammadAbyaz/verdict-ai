@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { Module } from '../module/entities/module.entity';
 import { UpdateProgressDto, UpdateTestProgressDto } from './user-course.dtos';
 import { TEST_PROGRESS } from 'src/constants/test-progress';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class UserCourseService {
@@ -14,6 +15,8 @@ export class UserCourseService {
     private readonly userCourseRepository: Repository<UserCourse>,
     @InjectRepository(Module)
     private readonly moduleRepository: Repository<Module>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
   async getUserProgress({
     userId,
@@ -39,6 +42,10 @@ export class UserCourseService {
       relations: ['course'],
     });
 
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+
+    if (!userCourses || !user) throw new NotFoundException();
+
     let totalXp = 0;
 
     for (const userCourse of userCourses) {
@@ -56,7 +63,7 @@ export class UserCourseService {
       }
     }
 
-    return { totalXp };
+    return { totalXp, hearts: user.hearts };
   }
 
   async updateProgress({
@@ -69,7 +76,10 @@ export class UserCourseService {
     const userCourse = await this.userCourseRepository.findOne({
       where: { userId, courseId: updateProgress.courseId },
     });
-    if (!userCourse) throw new NotFoundException();
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+    });
+    if (!userCourse || !user) throw new NotFoundException();
 
     if (updateProgress.moduleOrder <= userCourse.moduleProgress) {
       return {
@@ -78,7 +88,9 @@ export class UserCourseService {
     }
 
     userCourse.moduleProgress = updateProgress.moduleOrder;
+    user.hearts = updateProgress.hearts;
     await this.userCourseRepository.save(userCourse);
+    await this.userRepository.save(user);
     return {
       userCourse,
     };
@@ -104,6 +116,22 @@ export class UserCourseService {
 
     return {
       userCourse,
+    };
+  }
+
+  async getLeaderBoard({ limit }: { limit: number }) {
+    const response = await this.userRepository.find();
+    const finalLeaderBoard: { xp: number; username: string }[] = [];
+    for (const user of response) {
+      const userXp = await this.getUserTotalXp({ userId: user.id });
+      finalLeaderBoard.push({
+        xp: userXp.totalXp,
+        username: `${user.firstName} ${user.lastName}`,
+      });
+    }
+    finalLeaderBoard.sort((a, b) => b.xp - a.xp);
+    return {
+      finalLeaderBoard: finalLeaderBoard.slice(0, limit),
     };
   }
 }
