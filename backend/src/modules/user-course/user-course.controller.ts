@@ -55,6 +55,7 @@ export class UserCourseController {
     @GetUser() user: User,
     @Res() res: Response,
   ) {
+
     const response = await this.userCourseService.updateProgress({
       updateProgress: updateProgress,
       userId: user.id,

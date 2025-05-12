@@ -3,4 +3,6 @@ import { UserCourseDto } from './user-course.dto';
 
 export class UpdateTestProgressDto extends PickType(UserCourseDto, [
   'courseId',
-]) {}
+]) {
+  hearts: number;
+}
