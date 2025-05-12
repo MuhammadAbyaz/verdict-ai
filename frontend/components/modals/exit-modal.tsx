@@ -29,7 +29,7 @@ export const ExitModal = () => {
   return (
     <Dialog open={isOpen} onOpenChange={close}>
       <DialogContent className="max-w-md">
-        <DialogHeader>
+        <DialogHeader className="mt-4">
           <div className="flex items-center w-full justify-center mb-5">
             <Image src="/mascot_sad.svg" alt="Mascot" height={80} width={80} />
           </div>
@@ -56,7 +56,7 @@ export const ExitModal = () => {
               size="lg"
               onClick={() => {
                 close();
-                router.push("/learn");
+                router.back();
               }}
             >
               End session

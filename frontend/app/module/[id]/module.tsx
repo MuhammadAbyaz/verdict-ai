@@ -20,6 +20,7 @@ import { ResultCard } from "./result-card";
 import { useModule } from "@/hooks/use-module";
 import { useUpdateProgress } from "@/hooks/use-update-progress";
 import { useUpdateTestProgress } from "@/hooks/use-update-test-progress";
+import { useQueryClient } from "@tanstack/react-query";
 
 // Define interfaces for Lesson and Quiz based on usage
 interface Lesson {
@@ -86,6 +87,7 @@ export const Module = ({
   const { data: module } = useModule(moduleId);
   const upsertUserProgress = useUpdateProgress();
   const upsertTestProgress = useUpdateTestProgress();
+  const queryClient = useQueryClient();
 
   // Audio controls
   const [correctAudioElement, , correctAudioControls] = useAudio({
@@ -253,14 +255,19 @@ export const Module = ({
       await upsertUserProgress.mutateAsync({
         courseId: module.course.id,
         moduleOrder: module.order,
+        hearts: hearts,
       });
       router.push(`/learn/${module.course.id}`);
     } else {
       await upsertTestProgress.mutateAsync({
         courseId: module.course.id,
+        hearts: hearts,
       });
       router.push(`/learn/${module.course.id}`);
     }
+    queryClient.invalidateQueries({
+      queryKey: ["userPoints"],
+    });
   };
 
   if (!module || moduleState.items.length === 0) {

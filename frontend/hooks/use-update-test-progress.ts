@@ -10,6 +10,7 @@ import { toast } from "sonner";
 
 interface UpdateTestProgressData {
   courseId: string;
+  hearts: number;
 }
 
 // Define a more specific type for the expected API response if known, otherwise use 'any'

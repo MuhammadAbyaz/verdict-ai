@@ -11,6 +11,7 @@ import { toast } from "sonner";
 interface UpdateProgressData {
   courseId: string;
   moduleOrder: number;
+  hearts: number;
 }
 
 // Define a more specific type for the expected API response if known, otherwise use 'any'

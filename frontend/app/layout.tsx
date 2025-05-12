@@ -3,6 +3,9 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import { ReactQueryClientProvider } from "@/components/ReactQueryClientProvider";
 import { Toaster } from "sonner";
+import { ExitModal } from "@/components/modals/exit-modal";
+import { PracticeModal } from "@/components/modals/practice-modal";
+import { HeartsModal } from "@/components/modals/hearts-modal";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -21,6 +24,9 @@ export default function RootLayout({
       <html lang="en">
         <body className={font.className}>{children}</body>
         <Toaster richColors />
+        <ExitModal />
+        <PracticeModal />
+        <HeartsModal />
       </html>
     </ReactQueryClientProvider>
   );
