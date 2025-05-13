@@ -21,6 +21,7 @@ import { useModule } from "@/hooks/use-module";
 import { useUpdateProgress } from "@/hooks/use-update-progress";
 import { useUpdateTestProgress } from "@/hooks/use-update-test-progress";
 import { useQueryClient } from "@tanstack/react-query";
+import { useProgress } from "@/hooks/use-progress";
 
 // Define interfaces for Lesson and Quiz based on usage
 interface Lesson {
@@ -85,9 +86,12 @@ export const Module = ({
 }: ModuleProps) => {
   // Fetch module content
   const { data: module } = useModule(moduleId);
+  const { data: userProgressData, isLoading } = useProgress(module?.course?.id);
+  const [hasCompleted, setHasCompleted] = useState(null);
   const upsertUserProgress = useUpdateProgress();
   const upsertTestProgress = useUpdateTestProgress();
   const queryClient = useQueryClient();
+  console.log("has completed", hasCompleted);
 
   // Audio controls
   const [correctAudioElement, , correctAudioControls] = useAudio({
@@ -140,6 +144,13 @@ export const Module = ({
     items: [],
   });
 
+  // Open practice modal if module is completed
+  useEffect(() => {
+    if (hasCompleted && !isLoading) {
+      openPracticeModal();
+    }
+  }, [hasCompleted, isLoading, openPracticeModal]);
+
   console.log("module", module);
 
   // Update moduleState when module data is loaded
@@ -177,11 +188,20 @@ export const Module = ({
 
     items.sort((a, b) => a.order - b.order);
 
+    setHasCompleted((prev) => {
+      console.log(
+        "setting hasCompleted",
+        userProgressData?.userProgress.moduleProgress,
+        module.order
+      );
+      return userProgressData?.userProgress.moduleProgress >= module.order;
+    });
+
     setModuleState({
       activeIndex: 0,
       items,
     });
-  }, [module]);
+  }, [module, userProgressData]);
 
   const currentItem = moduleState.items[moduleState.activeIndex];
 
@@ -214,7 +234,17 @@ export const Module = ({
         } else {
           setStatus("wrong");
           playIncorrectSound();
-          setHearts((prev) => Math.max(prev - 1, 0));
+
+          // Only reduce hearts if this is the first attempt (not in practice mode)
+          if (!hasCompleted) {
+            const newHearts = Math.max(hearts - 1, 0);
+            setHearts(newHearts);
+
+            // Show hearts modal when hearts reach zero (first time only)
+            if (newHearts === 0) {
+              openHeartsModal();
+            }
+          }
         }
       }
     }

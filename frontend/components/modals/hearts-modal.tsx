@@ -24,7 +24,7 @@ export const HeartsModal = () => {
 
   const onClick = () => {
     close();
-    router.push("/store");
+    router.back();
   };
 
   if (!isClient) {
@@ -32,9 +32,9 @@ export const HeartsModal = () => {
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={close}>
+    <Dialog open={isOpen} onOpenChange={onClick}>
       <DialogContent className="max-w-md">
-        <DialogHeader>
+        <DialogHeader className="mt-4">
           <div className="flex items-center w-full justify-center mb-5">
             <Image src="/mascot_bad.svg" alt="Mascot" height={80} width={80} />
           </div>
@@ -59,7 +59,10 @@ export const HeartsModal = () => {
               variant="primaryOutline"
               className="w-full"
               size="lg"
-              onClick={close}
+              onClick={() => {
+                close();
+                router.back();
+              }}
             >
               No thanks
             </Button>
