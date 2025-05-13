@@ -55,7 +55,6 @@ export class UserCourseController {
     @GetUser() user: User,
     @Res() res: Response,
   ) {
-
     const response = await this.userCourseService.updateProgress({
       updateProgress: updateProgress,
       userId: user.id,
@@ -76,6 +75,20 @@ export class UserCourseController {
       updateTestProgress: updateTestProgressDto,
     });
 
+    return res.status(200).json(response);
+  }
+
+  @Post('/hearts')
+  @UseGuards(AuthGuard('jwt'))
+  async updateHearts(
+    @Res() res: Response,
+    @Body() updateHearts: { hearts: number },
+    @GetUser() user: User,
+  ) {
+    const response = await this.userCourseService.updateHearts({
+      hearts: updateHearts.hearts,
+      userId: user.id,
+    });
     return res.status(200).json(response);
   }
 }

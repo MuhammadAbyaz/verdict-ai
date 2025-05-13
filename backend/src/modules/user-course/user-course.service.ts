@@ -139,4 +139,14 @@ export class UserCourseService {
       leaderboard: finalLeaderBoard.slice(0, limit),
     };
   }
+
+  async updateHearts({ hearts, userId }: { hearts: number; userId: string }) {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) throw new NotFoundException();
+    user.hearts = hearts;
+    await this.userRepository.save(user);
+    return {
+      user,
+    };
+  }
 }
