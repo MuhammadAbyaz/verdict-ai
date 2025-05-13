@@ -1,15 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app/app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ExpressAdapter } from '@nestjs/platform-express';
+import * as express from 'express';
+
+const server = express();
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.enableCors({
-    origin: '*',
-  });
-  app.setGlobalPrefix('api');
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
 
-  await app.listen(process.env.PORT ?? 3000);
+  // Enable CORS if needed
+  app.enableCors();
+
+  await app.init();
 }
+
 bootstrap();
+
+// Export for serverless use
+export default server;
