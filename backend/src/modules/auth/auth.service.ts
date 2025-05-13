@@ -57,6 +57,7 @@ export class AuthService {
       token,
       email,
       username: `${firstName} ${lastName}`,
+      image: newUser.image,
     };
   }
 
@@ -77,7 +78,12 @@ export class AuthService {
       expiresIn: '7d',
     });
 
-    return { token, email, username: `${user.firstName} ${user.lastName}` };
+    return {
+      token,
+      email,
+      username: `${user.firstName} ${user.lastName}`,
+      image: user.image,
+    };
   }
 
   async validateUser(id: string): Promise<User> {

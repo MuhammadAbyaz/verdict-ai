@@ -28,6 +28,9 @@ export class User {
   @Column({ default: 10 })
   hearts: number;
 
+  @Column({ nullable: true })
+  image: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
