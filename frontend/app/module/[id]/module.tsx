@@ -22,6 +22,8 @@ import { useUpdateProgress } from "@/hooks/use-update-progress";
 import { useUpdateTestProgress } from "@/hooks/use-update-test-progress";
 import { useQueryClient } from "@tanstack/react-query";
 import { useProgress } from "@/hooks/use-progress";
+import { useHearts } from "@/hooks/use-hearts";
+import { usePoints } from "@/hooks/use-points";
 
 // Define interfaces for Lesson and Quiz based on usage
 interface Lesson {
@@ -55,9 +57,6 @@ interface Quiz {
 
 type ModuleProps = {
   moduleId: string;
-  initialPercentage: number;
-  initialHearts: number;
-  initialLessonId: number;
   userSubscription?: { isActive: boolean };
 };
 
@@ -77,13 +76,7 @@ type ModuleState = {
   items: ModuleItem[];
 };
 
-export const Module = ({
-  moduleId,
-  initialPercentage,
-  initialHearts,
-  initialLessonId,
-  userSubscription,
-}: ModuleProps) => {
+export const Module = ({ moduleId, userSubscription }: ModuleProps) => {
   // Fetch module content
   const { data: module } = useModule(moduleId);
   const { data: userProgressData, isLoading } = useProgress(module?.course?.id);
@@ -91,6 +84,7 @@ export const Module = ({
   const upsertUserProgress = useUpdateProgress();
   const upsertTestProgress = useUpdateTestProgress();
   const queryClient = useQueryClient();
+  const updateHearts = useHearts();
   console.log("has completed", hasCompleted);
 
   // Audio controls
@@ -129,22 +123,24 @@ export const Module = ({
   const { open: openPracticeModal } = usePracticeModal();
 
   useMount(() => {
-    if (initialPercentage === 100) openPracticeModal();
+    if (percentage === 100) openPracticeModal();
   });
 
-  const [lessonId] = useState(initialLessonId);
-  const [hearts, setHearts] = useState(initialHearts);
-  const [percentage, setPercentage] = useState(() => {
-    return initialPercentage === 100 ? 0 : initialPercentage;
-  });
+  const { data: pointsData } = usePoints();
+  const [hearts, setHearts] = useState(10);
 
-  // Create a combined and ordered list of lessons and quizzes
+  useEffect(() => {
+    if (pointsData?.hearts !== undefined) {
+      setHearts(pointsData.hearts);
+    }
+  }, [pointsData?.hearts]);
+  const [percentage, setPercentage] = useState(0);
+
   const [moduleState, setModuleState] = useState<ModuleState>({
     activeIndex: 0,
     items: [],
   });
 
-  // Open practice modal if module is completed
   useEffect(() => {
     if (hasCompleted && !isLoading) {
       openPracticeModal();
@@ -239,6 +235,7 @@ export const Module = ({
           if (!hasCompleted) {
             const newHearts = Math.max(hearts - 1, 0);
             setHearts(newHearts);
+            updateHearts.mutate(newHearts);
 
             // Show hearts modal when hearts reach zero (first time only)
             if (newHearts === 0) {
@@ -357,11 +354,7 @@ export const Module = ({
           </div>
         </div>
 
-        <Footer
-          lessonId={lessonId}
-          status="completed"
-          onCheck={updateUserProgress}
-        />
+        <Footer status="completed" onCheck={updateUserProgress} />
       </>
     );
   }

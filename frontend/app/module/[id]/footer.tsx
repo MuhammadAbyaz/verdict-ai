@@ -9,16 +9,9 @@ type FooterProps = {
   onNext?: () => void;
   status: "correct" | "wrong" | "none" | "completed" | "lesson";
   disabled?: boolean;
-  lessonId?: number;
 };
 
-export const Footer = ({
-  onCheck,
-  onNext,
-  status,
-  disabled,
-  lessonId,
-}: FooterProps) => {
+export const Footer = ({ onCheck, onNext, status, disabled }: FooterProps) => {
   useKey("Enter", onCheck, {}, [onCheck]);
   const isMobile = useMedia("(max-width: 1024px)");
 
