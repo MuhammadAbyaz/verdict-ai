@@ -3,7 +3,7 @@ import React from "react";
 
 const QuestsPage = () => {
   return (
-    <div className="mt-10">
+    <div className="mx-auto max-w-[1156px] mt-10">
       <QuestsWrapper />
     </div>
   );

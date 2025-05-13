@@ -31,7 +31,7 @@ const LearnPage = () => {
   console.log("modules", courseData.modules);
 
   return (
-    <div className="mt-10 flex flex-row-reverse gap-[48px] px-6">
+    <div className="max-w-[1156px] mx-auto mt-10 flex flex-row-reverse gap-[48px] px-6">
       <StickyWrapper>
         <UserProgress
           hasActiveSubscription={hasActiveSubscription}
