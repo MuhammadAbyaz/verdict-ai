@@ -13,6 +13,7 @@ import { QuestionModule } from '../question/question.module';
 import { OptionModule } from '../option/option.module';
 import { UserCourseModule } from '../user-course/user-course.module';
 import { TestModule } from '../test/test.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { TestModule } from '../test/test.module';
     }),
     TypeOrmModule.forRoot(dataSourceOptions),
     AuthModule,
+    UserModule,
     CourseModule,
     ModuleModule,
     LessonModule,
