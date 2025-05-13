@@ -9,7 +9,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
 
   // Enable CORS if needed
-  app.enableCors();
+  app.enableCors({
+    origin: '*',
+  });
+  app.setGlobalPrefix('api');
 
   await app.init();
 }
