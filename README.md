@@ -1,5 +1,3 @@
-
-![Architecture Diagram](./supa.jpg)
 # ⚖️ Verdict AI
 
 Welcome to **Verdict AI**, an intelligent, three-tier AI-based assessment platform engineered to streamline and enhance the quiz/test experience for learners, educators, and administrators alike. Our platform utilizes a powerful blend of modern frontend, scalable backend, and distributed database architecture to deliver seamless performance.
@@ -11,7 +9,7 @@ Welcome to **Verdict AI**, an intelligent, three-tier AI-based assessment platfo
 Verdict AI is built on a **Three-Tier Client Server Architecture**:
 
 
-![Architecture Diagram](./path-to-your-diagram-image.png)
+![Architecture Diagram](./supa.jpg)
 
 ---
 
