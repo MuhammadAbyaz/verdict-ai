@@ -55,3 +55,17 @@ Verdict AI is built on a **Three-Tier Client Server Architecture**:
    ```bash
    git clone https://github.com/MuhammadAbyaz/verdict-ai.git
    cd verdict-ai
+
+
+🤝 Contributors
+We proudly acknowledge the amazing efforts of our team:
+
+👨‍💻 Awwab – Backend
+
+🧠 Abyaz – Backend & Architecture
+
+🔍 Rayyan – Database 
+
+🛠️ Talha – Front End
+
+⭐ Special thanks to our mentors and the open-source community!
