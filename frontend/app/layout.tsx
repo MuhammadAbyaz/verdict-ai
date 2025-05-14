@@ -22,6 +22,10 @@ export default function RootLayout({
   return (
     <ReactQueryClientProvider>
       <html lang="en">
+        {/* <meta
+          httpEquiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        /> */}
         <body className={font.className}>{children}</body>
         <Toaster richColors />
         <ExitModal />

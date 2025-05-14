@@ -38,7 +38,7 @@ export const UserProgress = ({
           </Button>
         </Link>
       )}
-      <Link href="/shop">
+      <Link href="#">
         <Button variant="ghost" className="text-orange-500">
           <Image
             src="/points.svg"
@@ -50,7 +50,7 @@ export const UserProgress = ({
           {data.totalXp}
         </Button>
       </Link>
-      <Link href="/shop">
+      <Link href="#">
         <Button variant="ghost" className="text-rose-500">
           <Image
             src="/heart.svg"

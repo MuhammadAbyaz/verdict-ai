@@ -24,6 +24,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useProgress } from "@/hooks/use-progress";
 import { useHearts } from "@/hooks/use-hearts";
 import { usePoints } from "@/hooks/use-points";
+import { Loader } from "lucide-react";
 
 // Define interfaces for Lesson and Quiz based on usage
 interface Lesson {
@@ -151,7 +152,7 @@ export const Module = ({ moduleId, userSubscription }: ModuleProps) => {
 
   // Update moduleState when module data is loaded
   useEffect(() => {
-    if (!module) return;
+    if (!module || percentage === 100) return;
 
     const items: ModuleItem[] = [];
 
@@ -271,7 +272,9 @@ export const Module = ({ moduleId, userSubscription }: ModuleProps) => {
     if (moduleState.activeIndex === moduleState.items.length - 1) {
       setTimeout(() => {
         playFinishSound();
-      }, 1000);
+        updateUserProgress();
+        console.log("updating user progress");
+      }, 0);
     }
   };
 
@@ -284,13 +287,13 @@ export const Module = ({ moduleId, userSubscription }: ModuleProps) => {
         moduleOrder: module.order,
         hearts: hearts,
       });
-      router.push(`/learn/${module.course.id}`);
+      // router.push(`/learn/${module.course.id}`);
     } else {
       await upsertTestProgress.mutateAsync({
         courseId: module.course.id,
         hearts: hearts,
       });
-      router.push(`/learn/${module.course.id}`);
+      // router.push(`/learn/${module.course.id}`);
     }
     queryClient.invalidateQueries({
       queryKey: ["userPoints"],
@@ -303,7 +306,9 @@ export const Module = ({ moduleId, userSubscription }: ModuleProps) => {
         {correctAudioElement}
         {incorrectAudioElement}
         {finishAudioElement}
-        <div>Loading module content...</div>
+        <div className="flex justify-center items-center h-40">
+          <Loader className="h-8 w-8 animate-spin text-neutral-500" />
+        </div>
       </>
     );
   }
@@ -354,7 +359,7 @@ export const Module = ({ moduleId, userSubscription }: ModuleProps) => {
           </div>
         </div>
 
-        <Footer status="completed" onCheck={updateUserProgress} />
+        <Footer status="completed" onCheck={router.back} />
       </>
     );
   }
@@ -401,7 +406,9 @@ export const Module = ({ moduleId, userSubscription }: ModuleProps) => {
             if (moduleState.activeIndex === moduleState.items.length - 1) {
               setTimeout(() => {
                 playFinishSound();
-              }, 1000);
+                updateUserProgress();
+                console.log("updating user progress");
+              }, 0);
             }
           }}
         />
