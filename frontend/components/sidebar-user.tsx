@@ -28,7 +28,7 @@ export function NavUser({
   user: {
     username: string;
     email: string;
-    avatar: string;
+    image: string;
   };
   handleLogout: () => void;
 }) {
@@ -41,7 +41,7 @@ export function NavUser({
           //   variant={"primary"}
         >
           <Avatar className="h-8 w-8 rounded-lg">
-            <AvatarImage src={user.avatar} alt={user.username} />
+            <AvatarImage src={user.image} alt={user.username} />
             <AvatarFallback className="rounded-lg">
               {user.username &&
                 user.username
@@ -66,7 +66,7 @@ export function NavUser({
         <DropdownMenuLabel className="p-0 font-normal">
           <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
             <Avatar className="h-8 w-8 rounded-lg">
-              <AvatarImage src={user.avatar} alt={user.username} />
+              <AvatarImage src={user.image} alt={user.username} />
               <AvatarFallback className="rounded-lg">
                 {user.username &&
                   user.username
