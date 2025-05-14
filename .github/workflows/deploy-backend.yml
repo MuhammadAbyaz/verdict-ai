@@ -1,0 +1,57 @@
+name: Deploy NestJS Backend to EC2
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'backend/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: 'backend/package-lock.json'
+      
+    - name: Install dependencies
+      working-directory: ./backend
+      run: npm ci
+      
+    - name: Build application
+      working-directory: ./backend
+      run: npm run build
+      
+    - name: Deploy to EC2
+      run: |
+        # Create directory structure if it doesn't exist
+        ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "mkdir -p ${{ secrets.TARGET_DIR }}"
+        
+        # Copy package files
+        rsync -avz ./backend/package*.json ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:${{ secrets.TARGET_DIR }}/
+        
+        # Copy dist folder
+        rsync -avz --delete ./backend/dist/ ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:${{ secrets.TARGET_DIR }}/dist/
+        
+        # Copy any additional necessary files (e.g., config files, but not node_modules)
+        if [ -d "./backend/config" ]; then
+          rsync -avz ./backend/config/ ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:${{ secrets.TARGET_DIR }}/config/
+        fi
+        
+        # Install production dependencies
+        ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cd ${{ secrets.TARGET_DIR }} && npm ci --production"
+        
+        # Restart or start application with PM2
+        ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cd ${{ secrets.TARGET_DIR }} && pm2 restart nestjs-app || pm2 start dist/main.js --name nestjs-app"
+        
+        # Save PM2 process list
+        ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "pm2 save"
+        
+        echo "Deployment completed successfully!"
