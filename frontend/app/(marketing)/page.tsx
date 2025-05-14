@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import ActionButton from "./actionButton";
 
 export default function Home() {
   return (
@@ -13,14 +13,7 @@ export default function Home() {
         <h1 className="text-xl lg:text-3xl font-bold text-neutral-600 max-w-[480px] text-center">
           Simplifying Complex Law. Learn, Play and Stay Informed.
         </h1>
-        <div className="flex flex-col items-center gap-y-3 max-w-[330px] w-full">
-          <Button size="lg" variant="secondary" className="w-full" asChild>
-            <Link href="/courses">Get Started</Link>
-          </Button>
-          <Button size="lg" variant="primaryOutline" className="w-full" asChild>
-            <Link href="/login">I already have an account</Link>
-          </Button>
-        </div>
+        <ActionButton />
       </div>
     </div>
   );
