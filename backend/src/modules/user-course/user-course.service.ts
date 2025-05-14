@@ -63,7 +63,7 @@ export class UserCourseService {
       }
     }
 
-    return { totalXp, hearts: user.hearts, image: user.image };
+    return { totalXp, hearts: user.hearts };
   }
 
   async updateProgress({
@@ -126,12 +126,14 @@ export class UserCourseService {
 
   async getLeaderBoard({ limit }: { limit: number }) {
     const response = await this.userRepository.find();
-    const finalLeaderBoard: { xp: number; username: string }[] = [];
+    const finalLeaderBoard: { xp: number; username: string; image: string }[] =
+      [];
     for (const user of response) {
       const userXp = await this.getUserTotalXp({ userId: user.id });
       finalLeaderBoard.push({
         xp: userXp.totalXp,
         username: `${user.firstName} ${user.lastName}`,
+        image: user.image,
       });
     }
     finalLeaderBoard.sort((a, b) => b.xp - a.xp);
