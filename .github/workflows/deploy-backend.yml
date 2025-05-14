@@ -29,6 +29,16 @@ jobs:
     - name: Build application
       working-directory: ./backend
       run: npm run build
+
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        
+        # This line makes GitHub Actions trust your EC2 instance
+        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+        chmod 644 ~/.ssh/known_hosts
       
     - name: Deploy to EC2
       run: |
