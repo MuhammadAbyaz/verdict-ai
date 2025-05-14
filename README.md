@@ -9,21 +9,21 @@ Welcome to **Verdict AI**, an intelligent, three-tier AI-based assessment platfo
 Verdict AI is built on a **Three-Tier Client Server Architecture**:
 
 
-![Architecture Diagram](./supa.jpg)
+![Architecture Diagram](./assets/architecture.jpg)
 
 ---
 
 ## 🚀 Tech Stack
 
-| Layer         | Technology       |
-|--------------|------------------|
-| **Frontend** | Next.js          |
-| **Proxy**    | NGINX            |
-| **Backend**  | NestJS (TypeScript) |
+| Layer        | Technology            |
+|--------------|-----------------------|
+| **Frontend** | Next.js               |
+| **Proxy**    | NGINX                 |
+| **Backend**  | NestJS (TypeScript)   |
 | **Database** | Supabase (PostgreSQL) |
-| **ORM**      | Prisma           |
-| **Hosting**  | Vercel, AWS, Supabase |
-| **Versioning** | Git + GitHub  |
+| **ORM**      | TypeORM               |
+| **Hosting**  | Vercel & AWS          |
+| **Versioning** | Git + GitHub        |
 
 ---
 
@@ -40,10 +40,13 @@ Verdict AI is built on a **Three-Tier Client Server Architecture**:
 ## 🗃️ Database Schema Highlights
 
 - **Users Table** — Authentication and user metadata
+- **Courses Table** — Stores information about the courses
 - **Tests Table** — Stores each test instance
 - **Questions Table** — Linked to specific tests
 - **Options Table** — Stores multiple choice options
-- **User-Test Mapping** — For tracking attempts and ownership
+- **Quizzes Table** — Stores information about the quizzes
+- **Lesson Table** — Stores information about the lessons
+- **User-Course Table** — Bridge table for user and course
 
 > 📌 Note: Schema is designed to reduce redundancy and improve relational consistency. Passwords are securely hashed.
 
@@ -60,12 +63,10 @@ Verdict AI is built on a **Three-Tier Client Server Architecture**:
 🤝 Contributors
 We proudly acknowledge the amazing efforts of our team:
 
-👨‍💻 Awwab – Backend
+👨‍💻 Awwab – AI & Frontend
 
-🧠 Abyaz – Backend & Architecture
+🧠 Abyaz – Backend & Cloud Architecture
 
-🔍 Rayyan – Database 
+🔍 Rayyan – Database
 
-🛠️ Talha – Front End
-
-⭐ Special thanks to our mentors and the open-source community!
+🛠️ Talha – Frontend
