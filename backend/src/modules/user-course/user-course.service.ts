@@ -63,7 +63,7 @@ export class UserCourseService {
       }
     }
 
-    return { totalXp, hearts: user.hearts };
+    return { totalXp, hearts: user.hearts, image: user.image };
   }
 
   async updateProgress({
