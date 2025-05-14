@@ -57,6 +57,7 @@ export const useRegisterMutation = () => {
       if (typeof window !== "undefined") {
         localStorage.setItem("email", JSON.stringify(data.email));
         localStorage.setItem("username", JSON.stringify(data.username));
+        localStorage.setItem("image", JSON.stringify(data.image));
       }
 
       // Redirect to home page

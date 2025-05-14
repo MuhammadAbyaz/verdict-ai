@@ -13,6 +13,11 @@ export const useUser = () => {
       ? parseStoredValue(localStorage.getItem("auth_token"))
       : null;
 
+  const image =
+    typeof window !== "undefined"
+      ? parseStoredValue(localStorage.getItem("image"))
+      : null;
+
   const isAuthenticated = !!token;
   const isLoading = false; // Assuming loading is handled elsewhere
 
@@ -20,6 +25,7 @@ export const useUser = () => {
     email,
     username,
     token,
+    image,
   };
 
   return {

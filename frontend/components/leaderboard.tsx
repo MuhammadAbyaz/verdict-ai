@@ -59,7 +59,7 @@ const Leaderboard = () => {
 
               <Avatar className="ml-3 mr-6 h-12 w-12 border flex items-center justify-center bg-secondary">
                 <AvatarImage
-                  src={userProgress.userImageSrc}
+                  src={userProgress.image}
                   className="object-cover"
                 />
                 <AvatarFallback>
