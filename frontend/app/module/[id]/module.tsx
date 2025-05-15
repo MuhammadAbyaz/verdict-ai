@@ -147,9 +147,7 @@ export const Module = ({ moduleId, userSubscription }: ModuleProps) => {
       openPracticeModal();
     }
   }, [hasCompleted, isLoading, openPracticeModal]);
-
   console.log("module", module);
-
   // Update moduleState when module data is loaded
   useEffect(() => {
     if (!module || percentage === 100) return;
@@ -348,10 +346,7 @@ export const Module = ({ moduleId, userSubscription }: ModuleProps) => {
           </h1>
 
           <div className="flex w-full items-center gap-x-4">
-            <ResultCard
-              variant="points"
-              value={moduleState.items.length * 10}
-            />
+            <ResultCard variant="points" value={module?.xp || 100} />
             <ResultCard
               variant="hearts"
               value={userSubscription?.isActive ? Infinity : hearts}
