@@ -18,7 +18,7 @@ export const useUser = () => {
       ? parseStoredValue(localStorage.getItem("image"))
       : null;
 
-  const isAuthenticated = !!token;
+  const isAuthenticated = token !== null;
   const isLoading = false; // Assuming loading is handled elsewhere
 
   const user = {
